@@ -1,11 +1,13 @@
 let typeColors = {normal: "#A8A878", fire: "#F08030", water: "#6890F0", grass: "#78C850", elecric: "#F8D030", ice: "#98D8D8", fighting: "#C03028", poison: "#A040A0", ground: "#DABC69", flying: "#A890F0", psychic: "#F85888", bug: "#A8B820", rock: "#B8A038", ghost: "#705898", dragon: "#7038F8", dark: "#705848", steel: "#B8B8D0", fairy: "#F0B6BC"}
+let startingPointLoadPokemon = 0;
+let endPointLoadPokemon = 40;
 
 async function loadPokemons() {
-  for (let i = 0; i < 40; i++) {
+  for (let i = startingPointLoadPokemon; i < endPointLoadPokemon; i++) {
     let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
     let response = await fetch(url);
     let currentPokemon = await response.json();
-    console.log(currentPokemon);
+    //console.log(currentPokemon);
     renderPokemonCard(currentPokemon);
   }
 }
@@ -38,4 +40,22 @@ function renderPokemonCard(currentPokemon) {
     `;
   }
 
+  let loadingInProgress = false; // Add this flag
 
+  function loadMorePokemons() {
+    // Check if the user has scrolled to 80% of the page height
+    if (
+      !loadingInProgress &&
+      window.innerHeight + window.scrollY >= document.body.scrollHeight * 0.9
+    ) {
+      loadingInProgress = true; // Set the flag to indicate loading is in progress
+      startingPointLoadPokemon += 40;
+      endPointLoadPokemon += 40;
+      loadPokemons().then(() => {
+        loadingInProgress = false; // Reset the flag when loading is done
+      });
+    }
+  }
+  
+  window.addEventListener("scroll", loadMorePokemons);
+  
