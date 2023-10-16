@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokedex</title>
     <script src="./scripts/scripts.js" defer></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <link
       rel="shortcut icon"
       href="./img/pokedex-website-favicon---color.png"
@@ -16,6 +17,7 @@
     />
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body onload="loadPokemons()">
     <header>
       <div>
@@ -40,5 +42,8 @@
     <img class="background-image" src="./img/pokeball.png" alt="" />
     <main id="pokemonCardsContainer">
     </main>
+    <div id="showInfoPokemon" class="background-show-info-pokemon d-none">
+    </div>
   </body>
+
 </html>

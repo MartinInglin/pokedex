@@ -6,7 +6,7 @@ body {
 }
 
 .d-none {
-    display: none;
+  display: none;
 }
 
 header {
@@ -27,8 +27,8 @@ header img {
 }
 
 .search {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .pokeball {
@@ -43,56 +43,98 @@ header img {
 }
 
 .background-image {
-    position: fixed;
-    bottom: -155px;
-    right: -216px;
-    opacity: 0.05;
-    filter: grayscale(1);
-    overflow-x: hidden;
+  position: fixed;
+  bottom: -155px;
+  right: -216px;
+  opacity: 0.05;
+  filter: grayscale(1);
+  overflow-x: hidden;
 }
 
 main {
-    flex-grow: 1;
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 48px;
+  flex-grow: 1;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 48px;
 }
 
-
-
-.card {
-    height: 400px;
-    cursor: pointer;
-    border: 3px solid black;
-    box-shadow: 13px 15px 7px -2px rgba(0, 0, 0, 0.15);
+.card-my-definition {
+  height: 400px;
+  cursor: pointer;
+  border: 2px solid rgb(101, 101, 101);
+  box-shadow: 13px 15px 7px -2px rgba(0, 0, 0, 0.15);
 }
 
-.card:hover {
-    opacity: 0.7;
-    transition: 125ms ease-in-out;
+.card-my-definition:hover {
+  opacity: 0.7;
+  transition: 125ms ease-in-out;
 }
 
 .typesContainer {
-    display: flex;
-    gap: 16px;
+  display: flex;
+  gap: 16px;
 }
 
-.card-img, .card-img-top {
-    border-top-left-radius: var(--bs-card-inner-border-radius);
-    border-top-right-radius: var(--bs-card-inner-border-radius);
-    background-color: rgba(0, 0, 0, 0.7);
+.card-img,
+.card-img-top {
+  border-top-left-radius: var(--bs-card-inner-border-radius);
+  border-top-right-radius: var(--bs-card-inner-border-radius);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .bg-secondary {
-    --bs-bg-opacity: 1;
-    background-color: rgba(0, 0, 0, 0.4) !important;
+  --bs-bg-opacity: 1;
+  background-color: rgba(0, 0, 0, 0.4) !important;
 }
 
 .id {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: none;
+}
+
+.background-show-info-pokemon {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.1);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
+.info-card-my-definition {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 352px;
+  min-height: 500px;
+  margin-top: -400px;
+  margin-left: -176px;
+}
+
+table {
+  margin: 16px 0;
+}
+
+td {
+  text-align: left;
+  padding: 4px 24px;
+}
+
+td:last-child {
+  font-weight: 600;
+}
+
+.btn-close-my-definition {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.nav-link {
+  padding: 8px;
 }
