@@ -47,7 +47,7 @@ function renderPokemonCard(currentPokemon) {
   pokemonCardsContainer.innerHTML += `
       <div class="card card-my-definition" style="width: 18rem; background-color: ${bgColor};" onclick="showInfoPokemon(${id})">
       <div>
-        <img src="${currentPokemon['sprites']['other']['official-artwork']['front_default']}" class="card-img-top" alt="...">
+        <img src="${currentPokemon["sprites"]["other"]["official-artwork"]["front_default"]}" class="card-img-top" alt="...">
         <h2><span class="badge bg-secondary id">${id}</span></h2>
         </div>
         <div class="card-body">
@@ -87,16 +87,16 @@ function renderInfoPokemon(currentPokemon) {
   infoPokemonContainer.innerHTML = `
   <div class="card info-card-my-definition">
   <button type="button" class="btn-close btn-close-my-definition" aria-label="Close" onclick="hideInfoPokemon()"></button>
-  <img src="${currentPokemon['sprites']['other']['official-artwork']['front_default']}" class="card-img-top" alt="..." style="background-color: ${bgColor};">
+  <img src="${currentPokemon["sprites"]["other"]["official-artwork"]["front_default"]}" class="card-img-top" alt="..." style="background-color: ${bgColor};">
   <div class="card-body">
-    <h5 class="card-title">${currentPokemon.name}</h5>
+    <h3 class="card-title">${currentPokemon.name}</h3>
     <p class="card-text">${id}</p>
           <div class="typesContainer">
             ${typesHTML}
           </div>
           <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <button class="nav-link active" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about" type="button" role="tab" aria-controls="nav-about" aria-selected="true" onclick="showAboutPokemon(${currentPokemon})">About</button>
+            <button class="nav-link active" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about" type="button" role="tab" aria-controls="nav-about" aria-selected="true">About</button>
             <button class="nav-link" id="nav-base-stats-tab" data-bs-toggle="tab" data-bs-target="#nav-base-stats" type="button" role="tab" aria-controls="nav-base-stats" aria-selected="false">Base-stats</button>
             <button class="nav-link" id="nav-evolution-tab" data-bs-toggle="tab" data-bs-target="#nav-evolution" type="button" role="tab" aria-controls="nav-evolution" aria-selected="false">Evolution</button>
             <button class="nav-link" id="nav-moves-tab" data-bs-toggle="tab" data-bs-target="#nav-moves" type="button" role="tab" aria-controls="nav-moves" aria-selected="false">Moves</button>
@@ -113,49 +113,82 @@ function renderInfoPokemon(currentPokemon) {
 </div>
   `;
   showAboutPokemon(currentPokemon);
+  createOnclickTab(currentPokemon)
 }
 
+function createOnclickTab(currentPokemon) {
+  let tabAbout = document.getElementById('nav-about-tab');
+  tabAbout.onclick = function () {
+    showAboutPokemon(currentPokemon);
+  };
+}
+
+
 function showAboutPokemon(currentPokemon) {
+  let abilitiesHTML = ""; // Initialize an empty string for abilities
+
+  for (let i = 0; i < currentPokemon.abilities.length; i++) {
+    abilitiesHTML += currentPokemon.abilities[i].ability.name;
+    if (i < currentPokemon.abilities.length - 1) {
+      abilitiesHTML += ", "; // Add a comma and space if there are more abilities
+    }
+  }
+
+  let heldItemsHTML = "none"; // Default value for held items
+
+  if (currentPokemon.held_items.length > 0) {
+    // If there are held items, initialize the HTML string
+    heldItemsHTML = "";
+    for (let i = 0; i < currentPokemon.held_items.length; i++) {
+      heldItemsHTML += currentPokemon.held_items[i].item.name;
+      if (i < currentPokemon.held_items.length - 1) {
+        heldItemsHTML += ", "; // Add a comma and space if there are more held items
+      }
+    }
+  }
+
   /*html*/
-  document.getElementById('nav-about').innerHTML = `
+  document.getElementById("nav-about").innerHTML = `
     <table>
       <tr>
-        <td>Species</td>
-        <td>${currentPokemon['name']}</td>
-      </tr>
-      <tr>
         <td>Height</td>
-        <td>${currentPokemon['height']}</td>
+        <td>${currentPokemon.height} cm</td>
       </tr>
       <tr>
         <td>Weight</td>
-        <td>${currentPokemon['weight']}</td>
+        <td>${currentPokemon.weight} g</td>
       </tr>
       <tr>
         <td>Abilities</td>
-        <td>${currentPokemon['abilities'][0]['ability']['name']} ${currentPokemon['abilities'][1]['ability']['name']}</td>
+        <td>${abilitiesHTML}</td>
+      </tr>
+      <tr>
+        <td>Held items</td>
+        <td>${heldItemsHTML}</td>
       </tr>
     </table>
   `;
 }
 
+
+
 function showBaseStatsPokemon(tabElement) {
-  activateTab(tabElement)
-  document.getElementById('cardBody').innerHTML = `
+  activateTab(tabElement);
+  document.getElementById("cardBody").innerHTML = `
     Base Stats
   `;
 }
 
 function showEvolutionPokemon(tabElement) {
-  activateTab(tabElement)
-  document.getElementById('cardBody').innerHTML = `
+  activateTab(tabElement);
+  document.getElementById("cardBody").innerHTML = `
     Evolution
   `;
 }
 
 function showMovesPokemon(tabElement) {
-  activateTab(tabElement)
-  document.getElementById('cardBody').innerHTML = `
+  activateTab(tabElement);
+  document.getElementById("cardBody").innerHTML = `
     Moves
   `;
 }
