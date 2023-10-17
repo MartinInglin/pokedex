@@ -21,6 +21,7 @@ let typeColors = {
 let startingPointLoadPokemon = 0;
 let endPointLoadPokemon = 40;
 let loadingInProgress = false;
+let myChart;
 
 async function loadPokemons() {
   for (let i = startingPointLoadPokemon; i < endPointLoadPokemon; i++) {
@@ -104,7 +105,7 @@ function renderInfoPokemon(currentPokemon) {
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab" tabindex="0"></div>
-          <div class="tab-pane fade" id="nav-base-stats" role="tabpanel" aria-labelledby="nav-base-stats-tab" tabindex="0">aslkgjaojgo</div>
+          <div class="tab-pane fade" id="nav-base-stats" role="tabpanel" aria-labelledby="nav-base-stats-tab" tabindex="0"><canvas id="baseStats"></canvas></div>
           <div class="tab-pane fade" id="nav-evolution" role="tabpanel" aria-labelledby="nav-evolution-tab" tabindex="0">ashdgoajoewg</div>
           <div class="tab-pane fade" id="nav-moves" role="tabpanel" aria-labelledby="nav-moves-tab" tabindex="0">Moves</div>
         </div>
@@ -113,16 +114,19 @@ function renderInfoPokemon(currentPokemon) {
 </div>
   `;
   showAboutPokemon(currentPokemon);
-  createOnclickTab(currentPokemon)
+  createOnclickTab(currentPokemon);
 }
 
 function createOnclickTab(currentPokemon) {
-  let tabAbout = document.getElementById('nav-about-tab');
+  let tabAbout = document.getElementById("nav-about-tab");
   tabAbout.onclick = function () {
     showAboutPokemon(currentPokemon);
   };
+  let tabBaseStats = document.getElementById("nav-base-stats-tab");
+  tabBaseStats.onclick = function () {
+    showBaseStatsPokemon(currentPokemon);
+  };
 }
-
 
 function showAboutPokemon(currentPokemon) {
   let abilitiesHTML = ""; // Initialize an empty string for abilities
@@ -170,27 +174,76 @@ function showAboutPokemon(currentPokemon) {
   `;
 }
 
+function showBaseStatsPokemon(currentPokemon) {
+  if (myChart) {
+    // If a chart instance exists, destroy it
+    myChart.destroy();
+  }
+  let stat = currentPokemon["stats"];
+  const data = {
+    labels: [
+      "HP",
+      "Attack",
+      "Defense",
+      "Special Attack",
+      "Special Defense",
+      "Speed",
+    ],
+    datasets: [
+      {
+        label: "Base Stats",
+        data: [
+          stat[0]["base_stat"],
+          stat[1]["base_stat"],
+          stat[2]["base_stat"],
+          stat[3]["base_stat"],
+          stat[4]["base_stat"],
+          stat[5]["base_stat"],
+        ],
+        fill: true,
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        borderColor: "rgb(255, 99, 132)",
+        pointBackgroundColor: "rgb(255, 99, 132)",
+        pointBorderColor: "#fff",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgb(255, 99, 132)",
+      },
+    ],
+  };
 
-
-function showBaseStatsPokemon(tabElement) {
-  activateTab(tabElement);
-  document.getElementById("cardBody").innerHTML = `
-    Base Stats
-  `;
-}
-
-function showEvolutionPokemon(tabElement) {
-  activateTab(tabElement);
-  document.getElementById("cardBody").innerHTML = `
-    Evolution
-  `;
-}
-
-function showMovesPokemon(tabElement) {
-  activateTab(tabElement);
-  document.getElementById("cardBody").innerHTML = `
-    Moves
-  `;
+  myChart = new Chart(document.getElementById("baseStats"), {
+    type: "radar",
+    data: data,
+    options: {
+      elements: {
+        line: {
+          borderWidth: 3,
+        },
+      },
+      scales: {
+        r: {
+          angleLines: {
+            display: false,
+          },
+          suggestedMin: 0,
+          suggestedMax: 260,
+        },
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const value = context.dataset.data[context.dataIndex];
+              return value;
+            }
+          }
+        }
+      }
+    },
+  });
 }
 
 function hideInfoPokemon() {
