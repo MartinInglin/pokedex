@@ -22,6 +22,7 @@ let startingPointLoadPokemon = 0;
 let endPointLoadPokemon = 40;
 let loadingInProgress = false;
 let myChart;
+let lastExecutionTime = 0;
 
 async function loadPokemons() {
   for (let i = startingPointLoadPokemon; i < endPointLoadPokemon; i++) {
@@ -251,14 +252,19 @@ function hideInfoPokemon() {
 }
 
 function loadMorePokemons() {
-  // Check if the user has scrolled to 90% of the page height
+  const currentTime = Date.now();
+
+  // Check if the user has scrolled to 90% of the page height and enough time has passed
   if (
     !loadingInProgress &&
+    currentTime - lastExecutionTime >= 3000 &&
     window.innerHeight + window.scrollY >= document.body.scrollHeight * 0.9
   ) {
     loadingInProgress = true;
     startingPointLoadPokemon += 40;
     endPointLoadPokemon += 40;
+    lastExecutionTime = currentTime;
+
     loadPokemons().then(() => {
       loadingInProgress = false;
     });
