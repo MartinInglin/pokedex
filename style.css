@@ -3,10 +3,15 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  font-family: "roboto", sans-serif;
 }
 
 .d-none {
   display: none;
+}
+
+.noScroll {
+  overflow: hidden;
 }
 
 header {
@@ -20,20 +25,28 @@ header {
 
 header div {
   height: 100%;
+  display: flex;
+  align-items: center;
 }
 
-header img {
+.pikachu {
+  height: 100%;
+}
+
+.logo {
   height: 100%;
 }
 
 .search {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .pokeball {
-  height: 60px;
+  height: 48px;
   rotate: -30deg;
+  transition: 125ms ease-in-out;
 }
 
 .pokeball:hover {
@@ -61,7 +74,7 @@ main {
 }
 
 .card-my-definition {
-  height: 400px;
+  max-height: 400px;
   cursor: pointer;
   border: 2px solid rgb(101, 101, 101);
   box-shadow: 13px 15px 7px -2px rgba(0, 0, 0, 0.15);
@@ -70,6 +83,11 @@ main {
 .card-my-definition:hover {
   opacity: 0.7;
   transition: 125ms ease-in-out;
+}
+
+.card-my-definition img {
+  min-width: 180px;
+  max-width: 18rem;
 }
 
 .typesContainer {
@@ -110,7 +128,7 @@ main {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 352px;
+  max-width: 352px;
   min-height: 500px;
   margin-top: -400px;
   margin-left: -176px;
@@ -135,8 +153,8 @@ td:last-child {
 
 .btn-close-my-definition {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 4px;
+  right: 4px;
 }
 
 .nav-link {
@@ -145,4 +163,37 @@ td:last-child {
 
 h3::first-letter {
   text-transform: capitalize;
+}
+
+.movesContainer {
+  padding: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  gap: 4px;
+  max-height: 300px;
+}
+
+@media (max-width: 748px) {
+  .pikachu {
+    height: 50%;
+  }
+  .logo {
+    height: 50%;
+  }
+  header {
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 352px) {
+  .info-card-my-definition {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-width: 300px;
+    min-height: 500px;
+    margin-top: -400px;
+    margin-left: -150px;
+}
 }

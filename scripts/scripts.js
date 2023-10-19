@@ -42,12 +42,12 @@ function renderPokemonCard(currentPokemon) {
 
   let typesHTML = "";
   for (let i = 0; i < currentPokemon.types.length; i++) {
-    typesHTML += `<h2><span class="badge bg-secondary">${currentPokemon.types[i].type.name}</span></h2>`;
+    typesHTML += `<h4><span class="badge bg-secondary">${currentPokemon.types[i].type.name}</span></h4>`;
   }
 
   /*html*/
   pokemonCardsContainer.innerHTML += `
-      <div class="card card-my-definition" style="width: 18rem; background-color: ${bgColor};" onclick="showInfoPokemon(${id})">
+      <div class="card card-my-definition" style="background-color: ${bgColor};" onclick="showInfoPokemon(${id})">
       <div>
         <img src="${currentPokemon["sprites"]["other"]["official-artwork"]["front_default"]}" class="card-img-top" alt="...">
         <h2><span class="badge bg-secondary id">${id}</span></h2>
@@ -92,23 +92,21 @@ function renderInfoPokemon(currentPokemon) {
   <img src="${currentPokemon["sprites"]["other"]["official-artwork"]["front_default"]}" class="card-img-top" alt="..." style="background-color: ${bgColor};">
   <div class="card-body">
     <h3 class="card-title">${currentPokemon.name}</h3>
-    <p class="card-text">${id}</p>
+    <p class="card-text">#${id}</p>
           <div class="typesContainer">
             ${typesHTML}
           </div>
           <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <button class="nav-link active" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about" type="button" role="tab" aria-controls="nav-about" aria-selected="true">About</button>
-            <button class="nav-link" id="nav-base-stats-tab" data-bs-toggle="tab" data-bs-target="#nav-base-stats" type="button" role="tab" aria-controls="nav-base-stats" aria-selected="false">Base-stats</button>
-            <button class="nav-link" id="nav-evolution-tab" data-bs-toggle="tab" data-bs-target="#nav-evolution" type="button" role="tab" aria-controls="nav-evolution" aria-selected="false">Evolution</button>
+            <button class="nav-link" id="nav-base-stats-tab" data-bs-toggle="tab" data-bs-target="#nav-base-stats" type="button" role="tab" aria-controls="nav-base-stats" aria-selected="false">Base-Stats</button>
             <button class="nav-link" id="nav-moves-tab" data-bs-toggle="tab" data-bs-target="#nav-moves" type="button" role="tab" aria-controls="nav-moves" aria-selected="false">Moves</button>
           </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab" tabindex="0"></div>
           <div class="tab-pane fade" id="nav-base-stats" role="tabpanel" aria-labelledby="nav-base-stats-tab" tabindex="0"><canvas id="baseStats"></canvas></div>
-          <div class="tab-pane fade" id="nav-evolution" role="tabpanel" aria-labelledby="nav-evolution-tab" tabindex="0">ashdgoajoewg</div>
-          <div class="tab-pane fade" id="nav-moves" role="tabpanel" aria-labelledby="nav-moves-tab" tabindex="0">Moves</div>
+          <div class="tab-pane fade" id="nav-moves" role="tabpanel" aria-labelledby="nav-moves-tab" tabindex="0"><div id="movesContainer" class="movesContainer"></div></div>
         </div>
         
   </div>
@@ -116,6 +114,7 @@ function renderInfoPokemon(currentPokemon) {
   `;
   showAboutPokemon(currentPokemon);
   createOnclickTab(currentPokemon);
+  preventBodyScrolling();
 }
 
 function createOnclickTab(currentPokemon) {
@@ -126,6 +125,10 @@ function createOnclickTab(currentPokemon) {
   let tabBaseStats = document.getElementById("nav-base-stats-tab");
   tabBaseStats.onclick = function () {
     showBaseStatsPokemon(currentPokemon);
+  };
+  let tabMoves = document.getElementById("nav-moves-tab");
+  tabMoves.onclick = function () {
+    showMovesPokemon(currentPokemon);
   };
 }
 
@@ -242,13 +245,35 @@ function showBaseStatsPokemon(currentPokemon) {
             }
           }
         }
+      },
+      options: {
+        layout: {
+          padding: -50
+        }
       }
     },
   });
 }
 
+function showMovesPokemon(currentPokemon) {
+  let movesContainer = document.getElementById('movesContainer');
+  let moves = currentPokemon['moves'];
+
+  for (let i = 0; i < moves.length; i++) {
+    /*html*/
+    movesContainer.innerHTML += `
+      <h6><span class="badge bg-secondary">${moves[i]['move']['name']}</span></h6>
+    `;
+  }
+}
+
+function preventBodyScrolling() {
+  document.getElementById('body').classList.add('noScroll');
+}
+
 function hideInfoPokemon() {
   document.getElementById("showInfoPokemon").classList.add("d-none");
+  document.getElementById('body').classList.remove('noScroll');
 }
 
 function loadMorePokemons() {
