@@ -29,7 +29,6 @@ async function loadPokemons() {
     let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
     let response = await fetch(url);
     let currentPokemon = await response.json();
-    console.log(currentPokemon);
     renderPokemonCard(currentPokemon);
   }
 }
@@ -71,7 +70,7 @@ async function loadPokemon(i) {
   let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
   let response = await fetch(url);
   let currentPokemon = await response.json();
-  //console.log(currentPokemon);
+  console.log(currentPokemon);
   renderInfoPokemon(currentPokemon);
 }
 
@@ -230,7 +229,7 @@ function showBaseStatsPokemon(currentPokemon) {
             display: false,
           },
           suggestedMin: 0,
-          suggestedMax: 260,
+          suggestedMax: 100,
         },
       },
       plugins: {

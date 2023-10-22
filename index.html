@@ -7,6 +7,8 @@
     <script src="./scripts/scripts.js" defer></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./scripts/filter.js"></script>
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
     <link
       rel="shortcut icon"
       href="./img/pokedex-website-favicon---color.png"
@@ -17,14 +19,15 @@
       href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="fonts.css">
+    <link rel="stylesheet" href="fonts.css" />
   </head>
 
   <body onload="loadPokemons()" id="body">
     <header>
       <div>
         <img class="pikachu" src="./img/pikachu.png" alt="" />
-        <img class="logo"
+        <img
+          class="logo"
           src="./img/pokedex-low-resolution-logo-color-on-transparent-background.png"
           alt=""
         />
@@ -42,10 +45,59 @@
       </div>
     </header>
     <img class="background-image" src="./img/pokeball.png" alt="" />
-    <main id="pokemonCardsContainer">
-    </main>
-    <div id="showInfoPokemon" class="background-show-info-pokemon d-none">
+    <main id="pokemonCardsContainer"></main>
+    <div id="showInfoPokemon" class="background-show-info-pokemon d-none"></div>
+    <div class="filter">
+      <h1>Search</h1>
+      <table class="table table-striped">
+        <tr>
+          <td></td>
+          <td>
+            <div class="input-group">
+              <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+                id="searchName"
+              />
+            </div>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>HP</td>
+          <td>
+            <div class="input-group">
+              <span class="input-group-text" id="inputGroup-sizing-default"
+                >Min</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+              />
+            </div>
+          </td>
+          <td>
+            <div class="input-group">
+              <span class="input-group-text" id="inputGroup-sizing-default"
+                >Min</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+              />
+            </div>
+          </td>
+        </tr>
+        <tr>
+      </table>
+      <button type="button" class="btn btn-secondary" onclick="searchPokemonFromInput()">Apply filter</button>
     </div>
   </body>
-
 </html>

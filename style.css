@@ -47,6 +47,7 @@ header div {
   height: 48px;
   rotate: -30deg;
   transition: 125ms ease-in-out;
+  cursor: pointer;
 }
 
 .pokeball:hover {
@@ -172,6 +173,21 @@ h3::first-letter {
   overflow-y: scroll;
   gap: 4px;
   max-height: 300px;
+}
+
+.filter {
+  position: absolute;
+  top: 20px;
+  right: 120px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 16px;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 13px 15px 7px -2px rgba(0, 0, 0, 0.15);
+}
+
+.filter td {
+  vertical-align: middle;
 }
 
 @media (max-width: 748px) {
