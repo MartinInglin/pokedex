@@ -56,6 +56,12 @@ header div {
   rotate: 0deg;
 }
 
+.pokeball-active {
+  height: 70px;
+  transition: 125ms ease-in-out;
+  rotate: 0deg;
+}
+
 .background-image {
   position: fixed;
   bottom: -155px;

@@ -61,9 +61,9 @@ function renderPokemonCard(currentPokemon) {
     `;
 }
 
-function showInfoPokemon(i) {
+async function showInfoPokemon(i) {
+  await loadPokemon(i);
   document.getElementById("showInfoPokemon").classList.remove("d-none");
-  loadPokemon(i);
 }
 
 async function loadPokemon(i) {
@@ -214,7 +214,7 @@ function showBaseStatsPokemon(currentPokemon) {
             display: false,
           },
           suggestedMin: 0,
-          suggestedMax: 100,
+          suggestedMax: 200,
         },
       },
       plugins: {

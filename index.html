@@ -25,7 +25,7 @@
         <form class="d-flex" role="search">
           <input class="form-control me-2 d-none" type="search" placeholder="Search" aria-label="Search" />
         </form>
-        <img src="./img/pokeball.png" alt="" class="pokeball" onclick="toggleFilter()" />
+        <img src="./img/pokeball.png" alt="" class="pokeball" onclick="toggleFilter()" id="pokeball"/>
       </div>
     </header>
     <img class="background-image" src="./img/pokeball.png" alt="" />
@@ -40,7 +40,7 @@
             <div class="input-group">
               <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
               <form id="search"  onsubmit="searchPokemonFromInput(); return false">
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="searchName" minlength="3"/>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="searchName" minlength="3" required onfocus="this.value=''" placeholder="You search for..."/>
               </form>
             </div>
           </td>
@@ -56,14 +56,14 @@
           </td>
           <td>
             <div class="input-group">
-              <span class="input-group-text" id="inputGroup-sizing-default">Min</span>
+              <span class="input-group-text" id="inputGroup-sizing-default">Max</span>
               <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
             </div>
           </td>
         </tr>
         <tr></tr>
       </table>
-      <button class="btn btn-secondary" type="submit" form="search" value="Submit">Apply filter</button>
+      <button class="btn btn-secondary" type="submit" form="search" value="submit">Apply filter</button>
     </div>
   </body>
 </html>
