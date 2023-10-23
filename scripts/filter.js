@@ -8,9 +8,7 @@ async function searchPokemonFromInput() {
 }
 
 async function searchAndStorePokemonNames(searchCharacters) {
-  const matchingPokemonNames = await filterPokemonNamesByCharacters(
-    searchCharacters
-  );
+  const matchingPokemonNames = await filterPokemonNamesByCharacters(searchCharacters);
   console.log(matchingPokemonNames);
 }
 
@@ -22,9 +20,7 @@ async function filterPokemonNamesByCharacters(searchCharacters) {
     return [];
   }
 
-  const filteredNames = allPokemonNames.filter((name) =>
-    name.includes(searchCharacters)
-  );
+  const filteredNames = allPokemonNames.filter((name) => name.includes(searchCharacters));
 
   return filteredNames;
 }
@@ -37,4 +33,17 @@ async function getAllPokemonNames() {
     console.error("Error fetching Pokémon names:", error);
     return [];
   }
+}
+
+function toggleFilter() {
+  const filterContainer = document.getElementById("filterContainer");
+  if (filterContainer.classList.contains("d-none")) {
+    filterContainer.classList.remove("d-none");
+  } else {
+    hideFilter();
+  }
+}
+
+function hideFilter() {
+  document.getElementById("filterContainer").classList.add("d-none");
 }

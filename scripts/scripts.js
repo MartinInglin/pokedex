@@ -106,8 +106,7 @@ function renderInfoPokemon(currentPokemon) {
           <div class="tab-pane fade show active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab" tabindex="0"></div>
           <div class="tab-pane fade" id="nav-base-stats" role="tabpanel" aria-labelledby="nav-base-stats-tab" tabindex="0"><canvas id="baseStats"></canvas></div>
           <div class="tab-pane fade" id="nav-moves" role="tabpanel" aria-labelledby="nav-moves-tab" tabindex="0"><div id="movesContainer" class="movesContainer"></div></div>
-        </div>
-        
+        </div>    
   </div>
 </div>
   `;
@@ -184,25 +183,11 @@ function showBaseStatsPokemon(currentPokemon) {
   }
   let stat = currentPokemon["stats"];
   const data = {
-    labels: [
-      "HP",
-      "Attack",
-      "Defense",
-      "Special Attack",
-      "Special Defense",
-      "Speed",
-    ],
+    labels: ["HP", "Attack", "Defense", "Special Attack", "Special Defense", "Speed"],
     datasets: [
       {
         label: "Base Stats",
-        data: [
-          stat[0]["base_stat"],
-          stat[1]["base_stat"],
-          stat[2]["base_stat"],
-          stat[3]["base_stat"],
-          stat[4]["base_stat"],
-          stat[5]["base_stat"],
-        ],
+        data: [stat[0]["base_stat"], stat[1]["base_stat"], stat[2]["base_stat"], stat[3]["base_stat"], stat[4]["base_stat"], stat[5]["base_stat"]],
         fill: true,
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         borderColor: "rgb(255, 99, 132)",
@@ -234,56 +219,52 @@ function showBaseStatsPokemon(currentPokemon) {
       },
       plugins: {
         legend: {
-          display: false
+          display: false,
         },
         tooltip: {
           callbacks: {
-            label: function(context) {
+            label: function (context) {
               const value = context.dataset.data[context.dataIndex];
               return value;
-            }
-          }
-        }
+            },
+          },
+        },
       },
       options: {
         layout: {
-          padding: -50
-        }
-      }
+          padding: -50,
+        },
+      },
     },
   });
 }
 
 function showMovesPokemon(currentPokemon) {
-  let movesContainer = document.getElementById('movesContainer');
-  let moves = currentPokemon['moves'];
+  let movesContainer = document.getElementById("movesContainer");
+  let moves = currentPokemon["moves"];
 
   for (let i = 0; i < moves.length; i++) {
     /*html*/
     movesContainer.innerHTML += `
-      <h6><span class="badge bg-secondary">${moves[i]['move']['name']}</span></h6>
+      <h6><span class="badge bg-secondary">${moves[i]["move"]["name"]}</span></h6>
     `;
   }
 }
 
 function preventBodyScrolling() {
-  document.getElementById('body').classList.add('noScroll');
+  document.getElementById("body").classList.add("noScroll");
 }
 
 function hideInfoPokemon() {
   document.getElementById("showInfoPokemon").classList.add("d-none");
-  document.getElementById('body').classList.remove('noScroll');
+  document.getElementById("body").classList.remove("noScroll");
 }
 
 function loadMorePokemons() {
   const currentTime = Date.now();
 
   // Check if the user has scrolled to 90% of the page height and enough time has passed
-  if (
-    !loadingInProgress &&
-    currentTime - lastExecutionTime >= 3000 &&
-    window.innerHeight + window.scrollY >= document.body.scrollHeight * 0.9
-  ) {
+  if (!loadingInProgress && currentTime - lastExecutionTime >= 3000 && window.innerHeight + window.scrollY >= document.body.scrollHeight * 0.9) {
     loadingInProgress = true;
     startingPointLoadPokemon += 40;
     endPointLoadPokemon += 40;
