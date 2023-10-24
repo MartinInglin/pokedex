@@ -90,8 +90,10 @@ function renderInfoPokemon(currentPokemon) {
   <button type="button" class="btn-close btn-close-my-definition" aria-label="Close" onclick="hideInfoPokemon()"></button>
   <img src="${currentPokemon["sprites"]["other"]["official-artwork"]["front_default"]}" class="card-img-top" alt="..." style="background-color: ${bgColor};">
   <div class="card-body card-body-info">
-    <h3 class="card-title">${currentPokemon.name}</h3>
-    <p class="card-text">#${id}</p>
+    <div class="title-n-id">
+      <h3 class="card-title">${currentPokemon.name}</h3>
+      <p class="card-text">#${id}</p>
+    </div>
           <div class="typesContainer">
             ${typesHTML}
           </div>

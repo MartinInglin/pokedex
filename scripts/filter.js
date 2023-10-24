@@ -60,7 +60,7 @@ function emptyPokemonCardsContainer() {
 function showSorry() {
   let pokemonCardsContainer = document.getElementById("pokemonCardsContainer");
   pokemonCardsContainer.innerHTML = `
-    <h3>Sorry, but we could not find a Pokemon with that name. Try another one.</h3>
+    <h3>Sorry, but we could not find a Pokemon with that name. Please try another one.</h3>
   `;
 }
 
@@ -90,4 +90,9 @@ function showFilter() {
 function hideFilter() {
   document.getElementById("filterContainer").classList.add("d-none");
   document.getElementById("pokeball").classList.remove("pokeball-active");
+}
+
+function resetFilter() {
+  document.getElementById("search").reset();
+  toggleFilter();
 }
