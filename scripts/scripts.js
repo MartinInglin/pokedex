@@ -1,22 +1,22 @@
 let typeColors = {
-  normal: "#A8A878",
-  fire: "#F08030",
-  water: "#6890F0",
-  grass: "#78C850",
-  elecric: "#F8D030",
-  ice: "#98D8D8",
-  fighting: "#C03028",
-  poison: "#A040A0",
-  ground: "#DABC69",
-  flying: "#A890F0",
-  psychic: "#F85888",
-  bug: "#A8B820",
-  rock: "#B8A038",
-  ghost: "#705898",
-  dragon: "#7038F8",
-  dark: "#705848",
-  steel: "#B8B8D0",
-  fairy: "#F0B6BC",
+  normal: "#BCBC97",
+  fire: "#F39D60",
+  water: "#96B2F5",
+  grass: "#96D477",
+  elecric: "#FADB61",
+  ice: "#BDE6E6",
+  fighting: "#D84B43",
+  poison: "#BC57BC",
+  ground: "#E4CE92",
+  flying: "#CBBDF6",
+  psychic: "#FA89AB",
+  bug: "#C9DB30",
+  rock: "#CCB657",
+  ghost: "#8A74AF",
+  dragon: "#9369FA",
+  dark: "#8F705C",
+  steel: "#D7D7E4",
+  fairy: "#F9E0E3",
 };
 let startingPointLoadPokemon = 0;
 let endPointLoadPokemon = 40;
@@ -49,7 +49,7 @@ function renderPokemonCard(currentPokemon) {
       <div class="card card-my-definition" style="background-color: ${bgColor};" onclick="showInfoPokemon(${id})">
       <div>
         <img src="${currentPokemon["sprites"]["other"]["official-artwork"]["front_default"]}" class="card-img-top" alt="...">
-        <h2><span class="badge bg-secondary id">${id}</span></h2>
+        <h4><span class="badge bg-secondary id"># ${id}</span></h4>
         </div>
         <div class="card-body">
           <h3 class="card-title">${currentPokemon.name}</h3>
@@ -82,14 +82,14 @@ function renderInfoPokemon(currentPokemon) {
 
   let typesHTML = "";
   for (let i = 0; i < currentPokemon.types.length; i++) {
-    typesHTML += `<h2><span class="badge bg-secondary">${currentPokemon.types[i].type.name}</span></h2>`;
+    typesHTML += `<h4><span class="badge bg-secondary">${currentPokemon.types[i].type.name}</span></h4>`;
   }
   /*html*/
   infoPokemonContainer.innerHTML = `
   <div class="card info-card-my-definition">
   <button type="button" class="btn-close btn-close-my-definition" aria-label="Close" onclick="hideInfoPokemon()"></button>
   <img src="${currentPokemon["sprites"]["other"]["official-artwork"]["front_default"]}" class="card-img-top" alt="..." style="background-color: ${bgColor};">
-  <div class="card-body">
+  <div class="card-body card-body-info">
     <h3 class="card-title">${currentPokemon.name}</h3>
     <p class="card-text">#${id}</p>
           <div class="typesContainer">

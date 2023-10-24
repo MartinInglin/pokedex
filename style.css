@@ -133,12 +133,16 @@ main {
 
 .info-card-my-definition {
   position: absolute;
-  top: 50%;
+  top: 48px;
   left: 50%;
   max-width: 352px;
-  min-height: 500px;
-  margin-top: -400px;
+  max-height: 90%;
   margin-left: -176px;
+  box-shadow: 13px 15px 7px -2px rgba(0, 0, 0, 0.15);
+}
+
+.card-body-info {
+  overflow-y: scroll;
 }
 
 table {
