@@ -6,11 +6,11 @@ async function searchPokemonFromInput() {
   await searchAndStorePokemonIDs(query); // Search and store IDs
   loadFilteredPokemons();
   hideFilter();
+  showResetFilterButton();
 }
 
 async function searchAndStorePokemonIDs(searchCharacters) {
   matchingPokemonNames = await filterPokemonIDsByCharacters(searchCharacters);
-  console.log(matchingPokemonNames);
 }
 
 async function filterPokemonIDsByCharacters(searchCharacters) {
@@ -21,7 +21,6 @@ async function filterPokemonIDsByCharacters(searchCharacters) {
   }
 
   const filteredIDs = allPokemonData.filter((pokemon) => pokemon.name.includes(searchCharacters)).map((pokemon) => pokemon.name);
-
   return filteredIDs;
 }
 
@@ -52,11 +51,6 @@ async function loadFilteredPokemons() {
   }
 }
 
-function emptyPokemonCardsContainer() {
-  let pokemonCardsContainer = document.getElementById("pokemonCardsContainer");
-  pokemonCardsContainer.innerHTML = "";
-}
-
 function showSorry() {
   let pokemonCardsContainer = document.getElementById("pokemonCardsContainer");
   pokemonCardsContainer.innerHTML = `
@@ -64,21 +58,12 @@ function showSorry() {
   `;
 }
 
-function resetVariables() {
-  startingPointLoadPokemon = 0;
-  endPointLoadPokemon = 40;
-  loadingInProgress = false;
-}
-
 function toggleFilter() {
   const filterContainer = document.getElementById("filterContainer");
   if (filterContainer.classList.contains("d-none")) {
     showFilter();
   } else {
-    resetVariables();
     hideFilter();
-    emptyPokemonCardsContainer();
-    loadPokemons();
   }
 }
 
@@ -93,6 +78,18 @@ function hideFilter() {
 }
 
 function resetFilter() {
+  removeEventListenerScroll();
   document.getElementById("search").reset();
-  toggleFilter();
+  resetVariables();
+  emptyPokemonCardsContainer();
+  loadPokemons();
+  hideResetFilterButton();
+}
+
+function showResetFilterButton() {
+  document.getElementById("resetFilter").classList.remove("d-none");
+}
+
+function hideResetFilterButton() {
+  document.getElementById("resetFilter").classList.add("d-none");
 }

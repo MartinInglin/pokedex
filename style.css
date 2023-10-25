@@ -69,15 +69,32 @@ header div {
   opacity: 0.05;
   filter: grayscale(1);
   overflow-x: hidden;
+  z-index: -1;
 }
 
 main {
-  flex-grow: 1;
+  overflow-y: hidden;
   display: flex;
-  gap: 24px;
+}
+
+.scroll-container {
+  flex-grow: 1;
+  overflow-y: scroll;
+  padding: 48px;
+}
+
+.pokemonCardsContainer {
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 48px;
+  gap: 24px;
+}
+
+
+.resetFilter {
+  position: fixed;
+  bottom: 8px;
+  right: 24px;
 }
 
 .card-my-definition {

@@ -4,11 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokedex</title>
-    <script src="./scripts/scripts.js" defer></script>
+    <script src="./scripts/main.js" defer></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="./scripts/filter.js"></script>
     <script src="./node_modules/axios/dist/axios.min.js"></script>
+    <script src="./scripts/templates.js"></script>
+    <script src="./scripts/config.js"></script>
+    <script src="./scripts/utils.js"></script>
     <link rel="shortcut icon" href="./img/pokedex-website-favicon---color.png" type="image/x-icon" />
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="style.css" />
@@ -25,46 +28,31 @@
         <form class="d-flex" role="search">
           <input class="form-control me-2 d-none" type="search" placeholder="Search" aria-label="Search" />
         </form>
-        <img src="./img/pokeball.png" alt="" class="pokeball" onclick="toggleFilter()" id="pokeball"/>
+        <img src="./img/pokeball.png" alt="" class="pokeball" onclick="toggleFilter()" id="pokeball" />
       </div>
     </header>
+
     <img class="background-image" src="./img/pokeball.png" alt="" />
-    <main id="pokemonCardsContainer"></main>
+
+    <main>
+      <div id="scrollContainer" class="scroll-container">
+        <div id="pokemonCardsContainer" class="pokemonCardsContainer"></div>
+      </div>
+    </main>
+    
+
     <div id="showInfoPokemon" class="background-show-info-pokemon d-none"></div>
     <div id="filterContainer" class="filter d-none">
-      <h1>Search</h1>
-      <table class="table table-striped">
-        <tr>
-          <td></td>
-          <td>
-            <div class="input-group">
-              <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
-              <form id="search"  onsubmit="searchPokemonFromInput(); return false">
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="searchName" minlength="3" placeholder="You search for..."/>
-              </form>
-            </div>
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>HP</td>
-          <td>
-            <div class="input-group">
-              <span class="input-group-text" id="inputGroup-sizing-default">Min</span>
-              <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-            </div>
-          </td>
-          <td>
-            <div class="input-group">
-              <span class="input-group-text" id="inputGroup-sizing-default">Max</span>
-              <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-            </div>
-          </td>
-        </tr>
-        <tr></tr>
-      </table>
-      <button class="btn btn-secondary" type="submit" form="search" value="submit">Apply filter</button>
-      <button class="btn btn-secondary" onclick="resetFilter()">Reset filter</button>
+      <div class="input-group">
+        <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
+        <form id="search" onsubmit="searchPokemonFromInput(); return false">
+          <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="searchName" minlength="3" placeholder="You search for..." />
+        </form>
+        <button class="btn btn-secondary" type="submit" form="search" value="submit">Apply filter</button>
+      </div>
     </div>
+
+    <button id="resetFilter" class="btn btn-secondary resetFilter d-none" onclick="resetFilter()">Reset filter</button>
+
   </body>
 </html>

@@ -1,25 +1,3 @@
-let typeColors = {
-  normal: "#BCBC97",
-  fire: "#F39D60",
-  water: "#96B2F5",
-  grass: "#96D477",
-  elecric: "#FADB61",
-  ice: "#BDE6E6",
-  fighting: "#D84B43",
-  poison: "#BC57BC",
-  ground: "#E4CE92",
-  flying: "#CBBDF6",
-  psychic: "#FA89AB",
-  bug: "#C9DB30",
-  rock: "#CCB657",
-  ghost: "#8A74AF",
-  dragon: "#9369FA",
-  dark: "#8F705C",
-  steel: "#D7D7E4",
-  fairy: "#F9E0E3",
-};
-let startingPointLoadPokemon = 0;
-let endPointLoadPokemon = 40;
 let loadingInProgress = false;
 let myChart;
 let lastExecutionTime = 0;
@@ -38,27 +16,10 @@ function renderPokemonCard(currentPokemon) {
   let type = currentPokemon.types[0].type.name; // Get the first type of the Pokémon
   let bgColor = typeColors[type] || "gray"; // Use the typeColors object or default to gray
   let id = currentPokemon["id"];
+  let typesHTML = getTypesPokemon(currentPokemon.types);
 
-  let typesHTML = "";
-  for (let i = 0; i < currentPokemon.types.length; i++) {
-    typesHTML += `<h4><span class="badge bg-secondary">${currentPokemon.types[i].type.name}</span></h4>`;
-  }
-
-  /*html*/
-  pokemonCardsContainer.innerHTML += `
-      <div class="card card-my-definition" style="background-color: ${bgColor};" onclick="showInfoPokemon(${id})">
-      <div>
-        <img src="${currentPokemon["sprites"]["other"]["official-artwork"]["front_default"]}" class="card-img-top" alt="...">
-        <h4><span class="badge bg-secondary id"># ${id}</span></h4>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">${currentPokemon.name}</h3>
-          <div class="typesContainer">
-            ${typesHTML}
-          </div>
-        </div>
-      </div>
-    `;
+  pokemonCardsContainer.innerHTML += renderHTMLPokemonCard(bgColor, id, typesHTML, currentPokemon);
+    addEventListenerScroll();
 }
 
 async function showInfoPokemon(i) {
@@ -70,7 +31,6 @@ async function loadPokemon(i) {
   let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
   let response = await fetch(url);
   let currentPokemon = await response.json();
-  console.log(currentPokemon);
   renderInfoPokemon(currentPokemon);
 }
 
@@ -79,42 +39,13 @@ function renderInfoPokemon(currentPokemon) {
   let type = currentPokemon.types[0].type.name; // Get the first type of the Pokémon
   let bgColor = typeColors[type] || "gray"; // Use the typeColors object or default to gray
   let id = currentPokemon["id"];
+  let typesHTML = getTypesPokemon(currentPokemon.types);
 
-  let typesHTML = "";
-  for (let i = 0; i < currentPokemon.types.length; i++) {
-    typesHTML += `<h4><span class="badge bg-secondary">${currentPokemon.types[i].type.name}</span></h4>`;
-  }
-  /*html*/
-  infoPokemonContainer.innerHTML = `
-  <div class="card info-card-my-definition">
-  <button type="button" class="btn-close btn-close-my-definition" aria-label="Close" onclick="hideInfoPokemon()"></button>
-  <img src="${currentPokemon["sprites"]["other"]["official-artwork"]["front_default"]}" class="card-img-top" alt="..." style="background-color: ${bgColor};">
-  <div class="card-body card-body-info">
-    <div class="title-n-id">
-      <h3 class="card-title">${currentPokemon.name}</h3>
-      <p class="card-text">#${id}</p>
-    </div>
-          <div class="typesContainer">
-            ${typesHTML}
-          </div>
-          <nav>
-          <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <button class="nav-link active" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about" type="button" role="tab" aria-controls="nav-about" aria-selected="true">About</button>
-            <button class="nav-link" id="nav-base-stats-tab" data-bs-toggle="tab" data-bs-target="#nav-base-stats" type="button" role="tab" aria-controls="nav-base-stats" aria-selected="false">Base-Stats</button>
-            <button class="nav-link" id="nav-moves-tab" data-bs-toggle="tab" data-bs-target="#nav-moves" type="button" role="tab" aria-controls="nav-moves" aria-selected="false">Moves</button>
-          </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent">
-          <div class="tab-pane fade show active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab" tabindex="0"></div>
-          <div class="tab-pane fade" id="nav-base-stats" role="tabpanel" aria-labelledby="nav-base-stats-tab" tabindex="0"><canvas id="baseStats"></canvas></div>
-          <div class="tab-pane fade" id="nav-moves" role="tabpanel" aria-labelledby="nav-moves-tab" tabindex="0"><div id="movesContainer" class="movesContainer"></div></div>
-        </div>    
-  </div>
-</div>
-  `;
+  infoPokemonContainer.innerHTML = renderHTMLInfoPokemonCard(currentPokemon, typesHTML, bgColor, id)
   showAboutPokemon(currentPokemon);
   createOnclickTab(currentPokemon);
   preventBodyScrolling();
+  hideFilter();
 }
 
 function createOnclickTab(currentPokemon) {
@@ -133,49 +64,32 @@ function createOnclickTab(currentPokemon) {
 }
 
 function showAboutPokemon(currentPokemon) {
-  let abilitiesHTML = ""; // Initialize an empty string for abilities
+  let abilitiesHTML = "";
 
   for (let i = 0; i < currentPokemon.abilities.length; i++) {
     abilitiesHTML += currentPokemon.abilities[i].ability.name;
     if (i < currentPokemon.abilities.length - 1) {
-      abilitiesHTML += ", "; // Add a comma and space if there are more abilities
+      abilitiesHTML += ", ";
     }
   }
 
-  let heldItemsHTML = "none"; // Default value for held items
+  let heldItemsHTML = "none";
 
   if (currentPokemon.held_items.length > 0) {
-    // If there are held items, initialize the HTML string
     heldItemsHTML = "";
     for (let i = 0; i < currentPokemon.held_items.length; i++) {
       heldItemsHTML += currentPokemon.held_items[i].item.name;
       if (i < currentPokemon.held_items.length - 1) {
-        heldItemsHTML += ", "; // Add a comma and space if there are more held items
+        heldItemsHTML += ", ";
       }
     }
   }
 
-  /*html*/
-  document.getElementById("nav-about").innerHTML = `
-    <table>
-      <tr>
-        <td>Height</td>
-        <td>${currentPokemon.height} cm</td>
-      </tr>
-      <tr>
-        <td>Weight</td>
-        <td>${currentPokemon.weight} g</td>
-      </tr>
-      <tr>
-        <td>Abilities</td>
-        <td>${abilitiesHTML}</td>
-      </tr>
-      <tr>
-        <td>Held items</td>
-        <td>${heldItemsHTML}</td>
-      </tr>
-    </table>
-  `;
+  document.getElementById("nav-about").innerHTML = renderHTMLTableInfoAboutPokemon(currentPokemon, abilitiesHTML, heldItemsHTML)
+}
+
+function findAbilitiesPokemon() {
+  
 }
 
 function showBaseStatsPokemon(currentPokemon) {
@@ -253,10 +167,6 @@ function showMovesPokemon(currentPokemon) {
   }
 }
 
-function preventBodyScrolling() {
-  document.getElementById("body").classList.add("noScroll");
-}
-
 function hideInfoPokemon() {
   document.getElementById("showInfoPokemon").classList.add("d-none");
   document.getElementById("body").classList.remove("noScroll");
@@ -264,9 +174,10 @@ function hideInfoPokemon() {
 
 function loadMorePokemons() {
   const currentTime = Date.now();
+  let scrollContainer = document.getElementById("scrollContainer");
 
   // Check if the user has scrolled to 90% of the page height and enough time has passed
-  if (!loadingInProgress && currentTime - lastExecutionTime >= 3000 && window.innerHeight + window.scrollY >= document.body.scrollHeight * 0.9) {
+  if (!loadingInProgress && currentTime - lastExecutionTime >= 3000 && scrollContainer.offsetHeight + scrollContainer.scrollTop >= scrollContainer.scrollHeight * 0.9) {
     loadingInProgress = true;
     startingPointLoadPokemon += 40;
     endPointLoadPokemon += 40;
@@ -277,5 +188,3 @@ function loadMorePokemons() {
     });
   }
 }
-
-window.addEventListener("scroll", loadMorePokemons);
