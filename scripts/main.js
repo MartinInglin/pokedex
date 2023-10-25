@@ -19,7 +19,7 @@ function renderPokemonCard(currentPokemon) {
   let typesHTML = getTypesPokemon(currentPokemon.types);
 
   pokemonCardsContainer.innerHTML += renderHTMLPokemonCard(bgColor, id, typesHTML, currentPokemon);
-    addEventListenerScroll();
+  addEventListenerScroll();
 }
 
 async function showInfoPokemon(i) {
@@ -41,7 +41,7 @@ function renderInfoPokemon(currentPokemon) {
   let id = currentPokemon["id"];
   let typesHTML = getTypesPokemon(currentPokemon.types);
 
-  infoPokemonContainer.innerHTML = renderHTMLInfoPokemonCard(currentPokemon, typesHTML, bgColor, id)
+  infoPokemonContainer.innerHTML = renderHTMLInfoPokemonCard(currentPokemon, typesHTML, bgColor, id);
   showAboutPokemon(currentPokemon);
   createOnclickTab(currentPokemon);
   preventBodyScrolling();
@@ -64,15 +64,24 @@ function createOnclickTab(currentPokemon) {
 }
 
 function showAboutPokemon(currentPokemon) {
-  let abilitiesHTML = "";
+  let abilitiesHTML = findAbilitiesPokemon(currentPokemon.abilities);
+  let heldItemsHTML = findHeldItems(currentPokemon);
 
-  for (let i = 0; i < currentPokemon.abilities.length; i++) {
-    abilitiesHTML += currentPokemon.abilities[i].ability.name;
-    if (i < currentPokemon.abilities.length - 1) {
+  document.getElementById("nav-about").innerHTML = renderHTMLTableInfoAboutPokemon(currentPokemon, abilitiesHTML, heldItemsHTML);
+}
+
+function findAbilitiesPokemon(abilities) {
+  let abilitiesHTML = "";
+  for (let i = 0; i < abilities.length; i++) {
+    abilitiesHTML += abilities[i].ability.name;
+    if (i < abilities.length - 1) {
       abilitiesHTML += ", ";
     }
   }
+  return abilitiesHTML;
+}
 
+function findHeldItems(currentPokemon) {
   let heldItemsHTML = "none";
 
   if (currentPokemon.held_items.length > 0) {
@@ -85,74 +94,11 @@ function showAboutPokemon(currentPokemon) {
     }
   }
 
-  document.getElementById("nav-about").innerHTML = renderHTMLTableInfoAboutPokemon(currentPokemon, abilitiesHTML, heldItemsHTML)
-}
-
-function findAbilitiesPokemon() {
-  
+  return heldItemsHTML;
 }
 
 function showBaseStatsPokemon(currentPokemon) {
-  if (myChart) {
-    // If a chart instance exists, destroy it
-    myChart.destroy();
-  }
-  let stat = currentPokemon["stats"];
-  const data = {
-    labels: ["HP", "Attack", "Defense", "Special Attack", "Special Defense", "Speed"],
-    datasets: [
-      {
-        label: "Base Stats",
-        data: [stat[0]["base_stat"], stat[1]["base_stat"], stat[2]["base_stat"], stat[3]["base_stat"], stat[4]["base_stat"], stat[5]["base_stat"]],
-        fill: true,
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        borderColor: "rgb(255, 99, 132)",
-        pointBackgroundColor: "rgb(255, 99, 132)",
-        pointBorderColor: "#fff",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgb(255, 99, 132)",
-      },
-    ],
-  };
-
-  myChart = new Chart(document.getElementById("baseStats"), {
-    type: "radar",
-    data: data,
-    options: {
-      elements: {
-        line: {
-          borderWidth: 3,
-        },
-      },
-      scales: {
-        r: {
-          angleLines: {
-            display: false,
-          },
-          suggestedMin: 0,
-          suggestedMax: 200,
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              const value = context.dataset.data[context.dataIndex];
-              return value;
-            },
-          },
-        },
-      },
-      options: {
-        layout: {
-          padding: -50,
-        },
-      },
-    },
-  });
+  createChart(currentPokemon);
 }
 
 function showMovesPokemon(currentPokemon) {
@@ -176,8 +122,7 @@ function loadMorePokemons() {
   const currentTime = Date.now();
   let scrollContainer = document.getElementById("scrollContainer");
 
-  // Check if the user has scrolled to 90% of the page height and enough time has passed
-  if (!loadingInProgress && currentTime - lastExecutionTime >= 3000 && scrollContainer.offsetHeight + scrollContainer.scrollTop >= scrollContainer.scrollHeight * 0.9) {
+  if (shouldLoadMorePokemons(scrollContainer, currentTime)) {
     loadingInProgress = true;
     startingPointLoadPokemon += 40;
     endPointLoadPokemon += 40;
@@ -187,4 +132,8 @@ function loadMorePokemons() {
       loadingInProgress = false;
     });
   }
+}
+
+function shouldLoadMorePokemons(scrollContainer, currentTime) {
+  return !loadingInProgress && currentTime - lastExecutionTime >= 3000 && scrollContainer.offsetHeight + scrollContainer.scrollTop >= scrollContainer.scrollHeight * 0.9;
 }
