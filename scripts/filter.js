@@ -78,10 +78,11 @@ function hideFilter() {
 }
 
 function resetFilter() {
+  resetVariables();
   removeEventListenerScroll();
   document.getElementById("search").reset();
-  resetVariables();
   emptyPokemonCardsContainer();
+  lastExecutionTime = currentTime;
   loadPokemons();
   hideResetFilterButton();
 }

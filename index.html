@@ -15,8 +15,8 @@
     <script src="./scripts/chart.js"></script>
     <link rel="shortcut icon" href="./img/pokedex-website-favicon---color.png" type="image/x-icon" />
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="fonts.css" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/fonts.css" />
   </head>
 
   <body onload="loadPokemons()" id="body">
@@ -47,7 +47,7 @@
       <div class="input-group">
         <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
         <form id="search" onsubmit="searchPokemonFromInput(); return false">
-          <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="searchName" minlength="3" placeholder="You search for..." />
+          <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="searchName" minlength="3" placeholder="You search for..." required/>
         </form>
         <button class="btn btn-secondary" type="submit" form="search" value="submit">Apply filter</button>
       </div>

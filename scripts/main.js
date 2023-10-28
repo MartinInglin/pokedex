@@ -1,5 +1,6 @@
 let loadingInProgress = false;
 let myChart;
+const currentTime = Date.now();
 let lastExecutionTime = 0;
 
 async function loadPokemons() {
@@ -23,11 +24,11 @@ function renderPokemonCard(currentPokemon) {
 }
 
 async function showInfoPokemon(i) {
-  await loadPokemon(i);
+  await loadInfoPokemon(i);
   document.getElementById("showInfoPokemon").classList.remove("d-none");
 }
 
-async function loadPokemon(i) {
+async function loadInfoPokemon(i) {
   let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
   let response = await fetch(url);
   let currentPokemon = await response.json();
@@ -119,7 +120,6 @@ function hideInfoPokemon() {
 }
 
 function loadMorePokemons() {
-  const currentTime = Date.now();
   let scrollContainer = document.getElementById("scrollContainer");
 
   if (shouldLoadMorePokemons(scrollContainer, currentTime)) {
