@@ -1,26 +1,32 @@
 let loadingInProgress = false;
 let myChart;
-const currentTime = Date.now();
+let currentTime;
 let lastExecutionTime = 0;
+let loadedPokemon = [];
 
 async function loadPokemons() {
   for (let i = startingPointLoadPokemon; i < endPointLoadPokemon; i++) {
     let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
     let response = await fetch(url);
     let currentPokemon = await response.json();
-    renderPokemonCard(currentPokemon);
+    await loadedPokemon.push(currentPokemon);;
   }
+  renderPokemonCard()
 }
 
-function renderPokemonCard(currentPokemon) {
-  let pokemonCardsContainer = document.getElementById("pokemonCardsContainer");
-  let type = currentPokemon.types[0].type.name; // Get the first type of the Pokémon
-  let bgColor = typeColors[type] || "gray"; // Use the typeColors object or default to gray
-  let id = currentPokemon["id"];
-  let typesHTML = getTypesPokemon(currentPokemon.types);
+function renderPokemonCard() {
+  for (let i = startingPointLoadPokemon; i < loadedPokemon.length; i++) {
+    const currentPokemon = loadedPokemon[i];
+    let pokemonCardsContainer = document.getElementById("pokemonCardsContainer");
+    let type = currentPokemon.types[0].type.name; // Get the first type of the Pokémon
+    let bgColor = typeColors[type] || "gray"; // Use the typeColors object or default to gray
+    let id = currentPokemon["id"];
+    let typesHTML = getTypesPokemon(currentPokemon.types);
+  
+    pokemonCardsContainer.innerHTML += renderHTMLPokemonCard(bgColor, id, typesHTML, currentPokemon);
+    addEventListenerScroll();
+  }
 
-  pokemonCardsContainer.innerHTML += renderHTMLPokemonCard(bgColor, id, typesHTML, currentPokemon);
-  addEventListenerScroll();
 }
 
 async function showInfoPokemon(i) {
@@ -121,6 +127,10 @@ function hideInfoPokemon() {
 
 function loadMorePokemons() {
   let scrollContainer = document.getElementById("scrollContainer");
+  const currentTime = Date.now();
+  console.log("Height of Container " + scrollContainer.offsetHeight);
+  console.log("Scrollposition " + scrollContainer.scrollTop);
+  console.log("Height of Body " + scrollContainer.scrollHeight * 0.8);
 
   if (shouldLoadMorePokemons(scrollContainer, currentTime)) {
     loadingInProgress = true;
@@ -135,5 +145,5 @@ function loadMorePokemons() {
 }
 
 function shouldLoadMorePokemons(scrollContainer, currentTime) {
-  return !loadingInProgress && currentTime - lastExecutionTime >= 3000 && scrollContainer.offsetHeight + scrollContainer.scrollTop >= scrollContainer.scrollHeight * 0.9;
+  return !loadingInProgress && currentTime - lastExecutionTime >= 3000 && scrollContainer.offsetHeight + scrollContainer.scrollTop >= scrollContainer.scrollHeight * 0.8;
 }
