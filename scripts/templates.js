@@ -3,7 +3,7 @@ function renderHTMLPokemonCard(bgColor, id, typesHTML, currentPokemon) {
     return `
     <div class="card card-my-definition" style="background-color: ${bgColor};" onclick="showInfoPokemon(${id})">
     <div>
-      <img src="${currentPokemon["sprites"]["other"]["official-artwork"]["front_default"]}" class="card-img-top" alt="Image-Pokemon">
+      <img src="${currentPokemon["sprites"]["other"]["official-artwork"]["front_default"]}" class="card-img-top" alt="Image Pokemon">
       <h4><span class="badge bg-secondary id"># ${id}</span></h4>
       </div>
       <div class="card-body">
@@ -19,8 +19,8 @@ function renderHTMLPokemonCard(bgColor, id, typesHTML, currentPokemon) {
 function renderHTMLInfoPokemonCard(currentPokemon, typesHTML, bgColor, id) {
     /*html*/
     return `
-    <div class="card info-card-my-definition">
-    <button type="button" class="btn-close btn-close-my-definition" aria-label="Close" onclick="hideInfoPokemon()"></button>
+    <div class="card info-card-my-definition" id="cardInfoPokemon">
+    <button type="button" class="btn-close btn-close-my-definition" aria-label="Close" onclick="closeInfoPokemonButton()"></button>
     <img src="${currentPokemon["sprites"]["other"]["official-artwork"]["front_default"]}" class="card-img-top" alt="Image Pokemon" style="background-color: ${bgColor};">
     <div class="card-body card-body-info">
       <div class="title-n-id">

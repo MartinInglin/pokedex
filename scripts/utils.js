@@ -9,6 +9,7 @@ function addEventListenerScroll() {
   }
 
   function resetVariables() {
+    filteredPokemons = [];
     startingPointLoadPokemon = 0;
     endPointLoadPokemon = 40;
     loadingInProgress = false;

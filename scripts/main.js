@@ -3,30 +3,33 @@ let myChart;
 let currentTime;
 let lastExecutionTime = 0;
 let loadedPokemon = [];
+let filteredPokemons = [];
 
 async function loadPokemons() {
   for (let i = startingPointLoadPokemon; i < endPointLoadPokemon; i++) {
     let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}`;
     let response = await fetch(url);
     let currentPokemon = await response.json();
-    await loadedPokemon.push(currentPokemon);;
+    await loadedPokemon.push(currentPokemon);
   }
   renderPokemonCard()
 }
 
 function renderPokemonCard() {
-  for (let i = startingPointLoadPokemon; i < loadedPokemon.length; i++) {
-    const currentPokemon = loadedPokemon[i];
+  let dataToRender = filteredPokemons.length > 0 ? filteredPokemons : loadedPokemon;
+
+  for (let i = startingPointLoadPokemon; i < dataToRender.length; i++) {
+    const currentPokemon = dataToRender[i];
     let pokemonCardsContainer = document.getElementById("pokemonCardsContainer");
     let type = currentPokemon.types[0].type.name; // Get the first type of the Pokémon
     let bgColor = typeColors[type] || "gray"; // Use the typeColors object or default to gray
     let id = currentPokemon["id"];
     let typesHTML = getTypesPokemon(currentPokemon.types);
-  
-    pokemonCardsContainer.innerHTML += renderHTMLPokemonCard(bgColor, id, typesHTML, currentPokemon);
-    addEventListenerScroll();
-  }
 
+    pokemonCardsContainer.innerHTML += renderHTMLPokemonCard(bgColor, id, typesHTML, currentPokemon);
+  }
+  filteredPokemons = [];
+  addEventListenerScroll();
 }
 
 async function showInfoPokemon(i) {
@@ -52,7 +55,6 @@ function renderInfoPokemon(currentPokemon) {
   showAboutPokemon(currentPokemon);
   createOnclickTab(currentPokemon);
   preventBodyScrolling();
-  hideFilter();
 }
 
 function createOnclickTab(currentPokemon) {
@@ -120,17 +122,24 @@ function showMovesPokemon(currentPokemon) {
   }
 }
 
-function hideInfoPokemon() {
+function hideInfoPokemon(event) {
+  if (!document.getElementById("cardInfoPokemon").contains(event.target)) {
+    document.getElementById("showInfoPokemon").classList.add("d-none");
+    document.getElementById("body").classList.remove("noScroll");
+  }
+}
+
+function closeInfoPokemonButton() {
   document.getElementById("showInfoPokemon").classList.add("d-none");
   document.getElementById("body").classList.remove("noScroll");
 }
 
+
+
+
 function loadMorePokemons() {
   let scrollContainer = document.getElementById("scrollContainer");
-  const currentTime = Date.now();
-  console.log("Height of Container " + scrollContainer.offsetHeight);
-  console.log("Scrollposition " + scrollContainer.scrollTop);
-  console.log("Height of Body " + scrollContainer.scrollHeight * 0.8);
+  currentTime = Date.now();
 
   if (shouldLoadMorePokemons(scrollContainer, currentTime)) {
     loadingInProgress = true;

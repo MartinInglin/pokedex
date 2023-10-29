@@ -29,7 +29,10 @@
         <form class="d-flex" role="search">
           <input class="form-control me-2 d-none" type="search" placeholder="Search" aria-label="Search" />
         </form>
-        <img src="./img/pokeball.png" alt="" class="pokeball" onclick="toggleFilter()" id="pokeball" />
+        <div>
+          <img src="./img/pokeball.png" alt="" class="pokeball" onclick="toggleFilter()" id="pokeball" />
+        </div>
+
       </div>
     </header>
 
@@ -42,14 +45,14 @@
     </main>
     
 
-    <div id="showInfoPokemon" class="background-show-info-pokemon d-none"></div>
+    <div id="showInfoPokemon" class="background-show-info-pokemon d-none" onclick="hideInfoPokemon(event)"></div>
+    <div id="closeFilter" class="closeFilter d-none" onclick="hideFilter()"></div>
     <div id="filterContainer" class="filter d-none">
       <div class="input-group">
-        <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
         <form id="search" onsubmit="searchPokemonFromInput(); return false">
-          <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="searchName" minlength="3" placeholder="You search for..." required/>
+          <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="searchName" minlength="3" placeholder="Name of Pokemon..." required/>
         </form>
-        <button class="btn btn-secondary" type="submit" form="search" value="submit">Apply filter</button>
+        <button class="btn btn-secondary" type="submit" form="search" value="submit">Search</button>
       </div>
     </div>
 

@@ -47,8 +47,10 @@ async function loadFilteredPokemons() {
     let url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
     let response = await fetch(url);
     let currentPokemon = await response.json();
-    renderPokemonCard(currentPokemon);
+    await filteredPokemons.push(currentPokemon);
   }
+  startingPointLoadPokemon = 0;
+  renderPokemonCard();
 }
 
 function showSorry() {
@@ -70,11 +72,18 @@ function toggleFilter() {
 function showFilter() {
   document.getElementById("filterContainer").classList.remove("d-none");
   document.getElementById("pokeball").classList.add("pokeball-active");
+  document.getElementById("closeFilter").classList.remove("d-none");
+  setFocusToInput();
+}
+
+function setFocusToInput(){
+  document.getElementById("searchName").focus();
 }
 
 function hideFilter() {
   document.getElementById("filterContainer").classList.add("d-none");
   document.getElementById("pokeball").classList.remove("pokeball-active");
+  document.getElementById("closeFilter").classList.add("d-none");
 }
 
 function resetFilter() {
@@ -83,8 +92,16 @@ function resetFilter() {
   document.getElementById("search").reset();
   emptyPokemonCardsContainer();
   lastExecutionTime = currentTime;
-  loadPokemons();
+  renderPokemonCard();
   hideResetFilterButton();
+  scrollToTopOfContainer();
+}
+
+function scrollToTopOfContainer() {
+  const scrollContainer = document.getElementById("scrollContainer");
+  if (scrollContainer) {
+    scrollContainer.scrollTop = 0;
+  }
 }
 
 function showResetFilterButton() {
